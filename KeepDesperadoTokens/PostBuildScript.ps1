@@ -3,5 +3,5 @@ $compress = @{
   CompressionLevel = "Fastest"
   DestinationPath = "..\KeepDesperadoTokens.zip"
 }
-Compress-Archive @compress
+Compress-Archive @compress -Update
 exit 0
