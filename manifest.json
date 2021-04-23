@@ -1,6 +1,6 @@
 {
     "name": "KeepDesperadoTokens",
-    "version_number": "1.0.0",
+    "version_number": "1.0.1",
     "website_url": "https://github.com/pi3n4t/KeepDesperadoTokens",
     "description": "This mod lets you keep your desired number of desperado tokens on stage change.",
 	"dependencies": [

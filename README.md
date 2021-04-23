@@ -7,5 +7,5 @@ The default value was at least a little playtested to feel "good".
 
 
 ## Changelog
-
+'1.0.1': Updated manifest to contain the correct dependencies
 '1.0.0': Initial release
