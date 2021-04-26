@@ -1,50 +1,49 @@
 ﻿using System;
 using BepInEx.Configuration;
 using RoR2;
+using EntityStates.GameOver;
 
 namespace KeepDesperadoTokens
 {
     public class KeepDesperadoTokens
     {
-        private int _maxDesperadoTokens;
+        private int _lastStageTokenAmount = 0;
 
         public ConfigEntry<double> TokenMultiplier { get; set; }
         public double Min { get; } = 0;
-        public double Max { get; } = 1;
+        public double Max { get; } = 100;
 
         public void Init()
         {
             TokenMultiplier.Value = Math.Min(Math.Max(TokenMultiplier.Value, Min), Max);
         }
 
-        public void OnRunEndResetTokens(On.EntityStates.GameOver.ShowReport.orig_OnEnter orig, EntityStates.GameOver.ShowReport self)
+        public void ResetTokens(On.EntityStates.GameOver.ShowReport.orig_OnEnter orig, ShowReport self)
         {
-            _maxDesperadoTokens = 0;
+            _lastStageTokenAmount = 0;
             orig(self);
         }
 
-        public void RecalculateTokenAmount(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
+        public void RecalculateTokenAmount(CharacterBody body)
         {
-            if (self.isPlayerControlled && self.teamComponent.teamIndex == TeamIndex.Player)
+            if (body.isPlayerControlled && body.teamComponent.teamIndex == TeamIndex.Player)
             {
-                int currentTokenAmount = self.GetBuffCount(RoR2Content.Buffs.BanditSkull);
-                int newTokenAmount = (int)Math.Floor(_maxDesperadoTokens * TokenMultiplier.Value);
+                int currentTokenAmount = body.GetBuffCount(RoR2Content.Buffs.BanditSkull);
+                int newTokenAmount = (int)Math.Floor(_lastStageTokenAmount * TokenMultiplier.Value);
 
                 if (currentTokenAmount < newTokenAmount)
                 {
                     for (int i = 0; i < newTokenAmount - currentTokenAmount; i++)
                     {
-                        self.AddBuff(RoR2Content.Buffs.BanditSkull);
+                        body.AddBuff(RoR2Content.Buffs.BanditSkull);
                     }
                 }
-
-                if (currentTokenAmount > _maxDesperadoTokens)
-                {
-                    _maxDesperadoTokens = self.GetBuffCount(RoR2Content.Buffs.BanditSkull);
-                }
             }
-
-            orig(self);
+        }
+        public void OnAdvanceStageSaveTokens(TeleporterInteraction interaction)
+        {
+            CharacterBody playerBody = PlayerCharacterMasterController.instances[0].master.GetBody();
+            _lastStageTokenAmount = playerBody.GetBuffCount(RoR2Content.Buffs.BanditSkull);
         }
     }
 }

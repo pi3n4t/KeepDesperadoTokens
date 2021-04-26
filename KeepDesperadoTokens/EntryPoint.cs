@@ -1,7 +1,7 @@
 ﻿using System;
 using BepInEx;
 using BepInEx.Logging;
-using On.RoR2;
+using RoR2;
 using On.EntityStates.GameOver;
 
 namespace KeepDesperadoTokens
@@ -12,21 +12,20 @@ namespace KeepDesperadoTokens
         internal new static ManualLogSource Logger { get; private set; }
 
         private readonly KeepDesperadoTokens _keepDesperadoTokens = new KeepDesperadoTokens();
-        private readonly LightsoutRewards _lightsoutRewards = new LightsoutRewards();
 
         public EntryPoint()
         {
             Logger = base.Logger;
 
-            CharacterBody.RecalculateStats += _keepDesperadoTokens.RecalculateTokenAmount;
-            ShowReport.OnEnter += _keepDesperadoTokens.OnRunEndResetTokens;
+            CharacterBody.onBodyStartGlobal += _keepDesperadoTokens.RecalculateTokenAmount;
+            TeleporterInteraction.onTeleporterFinishGlobal += _keepDesperadoTokens.OnAdvanceStageSaveTokens;
+            ShowReport.OnEnter += _keepDesperadoTokens.ResetTokens;
         }
 
         public void Awake()
         {
             InitConfig();
             _keepDesperadoTokens.Init();
-            _lightsoutRewards.Init();
         }
 
         private void InitConfig()
