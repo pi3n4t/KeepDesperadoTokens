@@ -4,13 +4,24 @@
 	"devDependencies": {
 		"@commitlint/cli": "^16.1.0",
 		"@commitlint/config-conventional": "^16.0.0",
+		"@semantic-release/changelog": "^6.0.1",
+		"@semantic-release/exec": "^6.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^8.0.2",
+		"@semantic-release/npm": "^9.0.0",
 		"husky": "^7.0.4",
-		"lint-staged": "^12.3.3"
+		"lint-staged": "^12.3.3",
+		"semantic-release": "^19.0.2"
 	},
 	"scripts": {
 		"prepare": "husky install"
 	},
 	"lint-staged": {
 		"*.cs": "dotnet format ./KeepDesperadoTokens.sln --include"
+	},
+	"private": "true",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/username/project.git"
 	}
 }
