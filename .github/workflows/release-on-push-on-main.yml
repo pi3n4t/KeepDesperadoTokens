@@ -1,0 +1,51 @@
+name: Release on push on main branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-on-push-on-main-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 'netstandard2.0'
+
+      - name: Install .Net dependencies
+        run: dotnet restore ./KeepDesperadoTokens
+
+      - name: Build the solution
+        run: dotnet build ./KeepDesperadoTokens
+
+      - name: Fetch the release version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release --branches main --dry-run
+
+      - name: Publish the project
+        run: dotnet publish ./KeepDesperadoTokens -p:Version=${{ env.RELEASE_VERSION }} -o project
+
+      - name: ZIP project directory
+        run: zip KeepDesperadoTokens.zip ./icon.png ./manifest.json ./README.md ./KeepDesperadoTokens/bin/Debug/netstandard2.0/KeepDesperadoTokens.dll
+
+      - name: Release the project
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release --branches main
