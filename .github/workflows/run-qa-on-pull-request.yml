@@ -1,0 +1,44 @@
+name: Run quality assurance on pull request
+ 
+on: pull_request
+ 
+jobs:
+  run-qa-on-pull-request:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+ 
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+ 
+      - name: Install Node dependencies
+        run: npm install
+        
+      - name: Check if commit messages are following the rules
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+ 
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 'netstandard2.0'
+ 
+      - name: Install .Net dependencies
+        run: dotnet restore ./KeepDesperadoTokens
+        
+      - name: Install dotnet-format
+        run: dotnet tool install -g dotnet-format
+ 
+      - name: Review the code
+        run: dotnet format ./KeepDesperadoTokens --verify-no-changes --verbosity diagnostic
+        
+      - name: Check if unit tests are passing
+        run: dotnet test ./KeepDesperadoTokens
+
+      - name: Check if solution is buildable
+        run: dotnet build ./KeepDesperadoTokens
