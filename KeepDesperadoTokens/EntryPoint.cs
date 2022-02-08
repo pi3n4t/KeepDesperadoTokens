@@ -38,5 +38,14 @@ namespace KeepDesperadoTokens
             );
         }
 
+        public void Destroy()
+        {
+            _keepDesperadoTokens.ResetTokens();
+
+            CharacterBody.onBodyStartGlobal -= _keepDesperadoTokens.RecalculateTokenAmount;
+            TeleporterInteraction.onTeleporterFinishGlobal -= _keepDesperadoTokens.OnAdvanceStageSaveTokens;
+            ShowReport.OnEnter -= _keepDesperadoTokens.ResetTokens;
+        }
+
     }
 }

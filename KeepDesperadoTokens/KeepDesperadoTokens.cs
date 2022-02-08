@@ -24,6 +24,11 @@ namespace KeepDesperadoTokens
             orig(self);
         }
 
+        public void ResetTokens()
+        {
+            _lastStageTokenAmount = 0;
+        }
+
         public void RecalculateTokenAmount(CharacterBody body)
         {
             if (body.isPlayerControlled && body.teamComponent.teamIndex == TeamIndex.Player)
