@@ -44,7 +44,7 @@ jobs:
         run: dotnet publish ./KeepDesperadoTokens -p:Version=${{ env.RELEASE_VERSION }} -o project
 
       - name: ZIP project directory
-        run: zip KeepDesperadoTokens.zip ./icon.png ./manifest.json ./README.md ./KeepDesperadoTokens/bin/Debug/netstandard2.0/KeepDesperadoTokens.dll
+        run: zip --junk-paths KeepDesperadoTokens.zip ./icon.png ./manifest.json ./README.md ./KeepDesperadoTokens/bin/Debug/netstandard2.0/KeepDesperadoTokens.dll
 
       - name: Release the project
         env:
