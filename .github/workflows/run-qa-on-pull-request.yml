@@ -35,10 +35,7 @@ jobs:
         run: dotnet tool install -g dotnet-format
  
       - name: Review the code
-        run: dotnet format ./KeepDesperadoTokens --verify-no-changes --verbosity diagnostic
-        
-      - name: Check if unit tests are passing
-        run: dotnet test ./KeepDesperadoTokens
+        run: dotnet format ./KeepDesperadoTokens --check --verbosity diagnostic
 
       - name: Check if solution is buildable
         run: dotnet build ./KeepDesperadoTokens
