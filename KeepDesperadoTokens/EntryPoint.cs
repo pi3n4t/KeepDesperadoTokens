@@ -20,6 +20,7 @@ namespace KeepDesperadoTokens
             CharacterBody.onBodyStartGlobal += _keepDesperadoTokens.RecalculateTokenAmount;
             TeleporterInteraction.onTeleporterFinishGlobal += _keepDesperadoTokens.OnAdvanceStageSaveTokens;
             ShowReport.OnEnter += _keepDesperadoTokens.ResetTokens;
+            On.RoR2.UI.MainMenu.MainMenuController.Start += _keepDesperadoTokens.ResetTokens;
         }
 
         public void Awake()
@@ -40,11 +41,10 @@ namespace KeepDesperadoTokens
 
         public void Destroy()
         {
-            _keepDesperadoTokens.ResetTokens();
-
             CharacterBody.onBodyStartGlobal -= _keepDesperadoTokens.RecalculateTokenAmount;
             TeleporterInteraction.onTeleporterFinishGlobal -= _keepDesperadoTokens.OnAdvanceStageSaveTokens;
             ShowReport.OnEnter -= _keepDesperadoTokens.ResetTokens;
+            On.RoR2.UI.MainMenu.MainMenuController.Start -= _keepDesperadoTokens.ResetTokens;
         }
 
     }

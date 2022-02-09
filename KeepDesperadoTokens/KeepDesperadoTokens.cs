@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using RoR2;
 using EntityStates.GameOver;
+using On.RoR2.UI;
 
 namespace KeepDesperadoTokens
 {
@@ -24,9 +25,10 @@ namespace KeepDesperadoTokens
             orig(self);
         }
 
-        public void ResetTokens()
+        public void ResetTokens(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {
             _lastStageTokenAmount = 0;
+            orig(self);
         }
 
         public void RecalculateTokenAmount(CharacterBody body)
