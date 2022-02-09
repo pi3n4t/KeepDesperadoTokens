@@ -19,7 +19,7 @@
 	"lint-staged": {
 		"*.cs": "dotnet format ./KeepDesperadoTokens.sln --include"
 	},
-	"private": "true",
+	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/pi3n4t/KeepDesperadoTokens.git"
