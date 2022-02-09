@@ -39,9 +39,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release --branches main --dry-run
-
-      - name: Publish the project
-        run: dotnet publish ./KeepDesperadoTokens -p:Version=${{ env.RELEASE_VERSION }} -o project
+        
+      - name: Update manifest version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: manifest.json
+          field: version_number
+          value: ${{ env.RELEASE_VERSION }}
 
       - name: ZIP project directory
         run: zip --junk-paths KeepDesperadoTokens.zip ./icon.png ./manifest.json ./README.md ./KeepDesperadoTokens/bin/Debug/netstandard2.0/KeepDesperadoTokens.dll
