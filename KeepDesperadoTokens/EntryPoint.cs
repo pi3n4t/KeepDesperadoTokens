@@ -20,6 +20,7 @@ namespace KeepDesperadoTokens
             CharacterBody.onBodyStartGlobal += _keepDesperadoTokens.RecalculateTokenAmount;
             TeleporterInteraction.onTeleporterFinishGlobal += _keepDesperadoTokens.OnAdvanceStageSaveTokens;
             ShowReport.OnEnter += _keepDesperadoTokens.ResetTokens;
+            On.RoR2.UI.MainMenu.MainMenuController.Start += _keepDesperadoTokens.ResetTokens;
         }
 
         public void Awake()
@@ -36,6 +37,14 @@ namespace KeepDesperadoTokens
                 0.25,
                 $"The multiplier for your tokens on stage change. Has to be written in decimal, i.e.: 1.0 = 100%, 0.5 = 50%, etc.{Environment.NewLine}Minimum: {_keepDesperadoTokens.Min}, Maximum: {_keepDesperadoTokens.Max}"
             );
+        }
+
+        public void Destroy()
+        {
+            CharacterBody.onBodyStartGlobal -= _keepDesperadoTokens.RecalculateTokenAmount;
+            TeleporterInteraction.onTeleporterFinishGlobal -= _keepDesperadoTokens.OnAdvanceStageSaveTokens;
+            ShowReport.OnEnter -= _keepDesperadoTokens.ResetTokens;
+            On.RoR2.UI.MainMenu.MainMenuController.Start -= _keepDesperadoTokens.ResetTokens;
         }
 
     }
