@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/pi3n4t/KeepDesperadoTokens/compare/v1.0.0...v1.1.0) (2022-02-09)
+
+
+### Features
+
+* updating the manifest version to bring it on par with the github release ([4983d79](https://github.com/pi3n4t/KeepDesperadoTokens/commit/4983d79d062f52056a97edb3966ddbdb5007de55))
+
 # 1.0.0 (2022-02-09)
 
 
